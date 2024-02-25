@@ -1,0 +1,158 @@
+import java.util.Scanner;
+
+class Employee {
+    int SSN;
+    String Name;
+    String Dept;
+    String Designation;
+    double Sal;
+    long PhNo;
+    Employee prev, next;
+
+    Employee(int SSN, String Name, String Dept, String Designation, double Sal, long PhNo) {
+        this.SSN = SSN;
+        this.Name = Name;
+        this.Dept = Dept;
+        this.Designation = Designation;
+        this.Sal = Sal;
+        this.PhNo = PhNo;
+        this.prev = null;
+        this.next = null;
+    }
+}
+
+class DoublyLinkedList {
+    Employee head, tail;
+    int size;
+
+    DoublyLinkedList() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
+
+    void insertEnd(Employee emp) {
+        if (head == null) {
+            head = emp;
+            tail = emp;
+        } else {
+            tail.next = emp;
+            emp.prev = tail;
+            tail = emp;
+        }
+        size++;
+    }
+
+    void insertFront(Employee emp) {
+        if (head == null) {
+            head = emp;
+            tail = emp;
+        } else {
+            emp.next = head;
+            head.prev = emp;
+            head = emp;
+        }
+        size++;
+    }
+
+    void deleteEnd() {
+        if (tail != null) {
+            tail = tail.prev;
+            if (tail != null)
+                tail.next = null;
+            else
+                head = null;
+            size--;
+        }
+    }
+
+    void deleteFront() {
+        if (head != null) {
+            head = head.next;
+            if (head != null)
+                head.prev = null;
+            else
+                tail = null;
+            size--;
+        }
+    }
+
+    void display() {
+        Employee current = head;
+        System.out.println("Doubly Linked List:");
+        while (current != null) {
+            System.out.println("SSN: " + current.SSN + ", Name: " + current.Name + ", Dept: " + current.Dept
+                    + ", Designation: " + current.Designation + ", Sal: " + current.Sal + ", PhNo: " + current.PhNo);
+            current = current.next;
+        }
+        System.out.println("Number of nodes: " + size);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        DoublyLinkedList dll = new DoublyLinkedList();
+
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Insert at End");
+            System.out.println("2. Insert at Front");
+            System.out.println("3. Delete from End");
+            System.out.println("4. Delete from Front");
+            System.out.println("5. Display DLL and Count Nodes");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter SSN: ");
+                    int ssn = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Dept: ");
+                    String dept = scanner.nextLine();
+                    System.out.print("Enter Designation: ");
+                    String designation = scanner.nextLine();
+                    System.out.print("Enter Salary: ");
+                    double sal = scanner.nextDouble();
+                    System.out.print("Enter Phone Number: ");
+                    long phNo = scanner.nextLong();
+                    dll.insertEnd(new Employee(ssn, name, dept, designation, sal, phNo));
+                    break;
+                case 2:
+                    System.out.print("Enter SSN: ");
+                    int ssnFront = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter Name: ");
+                    String nameFront = scanner.nextLine();
+                    System.out.print("Enter Dept: ");
+                    String deptFront = scanner.nextLine();
+                    System.out.print("Enter Designation: ");
+                    String designationFront = scanner.nextLine();
+                    System.out.print("Enter Salary: ");
+                    double salFront = scanner.nextDouble();
+                    System.out.print("Enter Phone Number: ");
+                    long phNoFront = scanner.nextLong();
+                    dll.insertFront(new Employee(ssnFront, nameFront, deptFront, designationFront, salFront, phNoFront));
+                    break;
+                case 3:
+                    dll.deleteEnd();
+                    break;
+                case 4:
+                    dll.deleteFront();
+                    break;
+                case 5:
+                    dll.display();
+                    break;
+                case 6:
+                    System.out.println("Exiting...");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
